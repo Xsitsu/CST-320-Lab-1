@@ -1,1 +1,5 @@
-“Lab1 Feedback”
+I enjoyed this lab.
+
+I didn't pay the best of attention in lab during the start when you were talking about some things on the board, because I was setting up my computer and connecting to the unix server, so I missed the part where we were told to do the first Make. When I was reading the lab writeup word document there was nothing mentioning that I needed to do Make first, and I was confused when nothing worked when I tried running the tests immediately and nothing worked.
+
+
