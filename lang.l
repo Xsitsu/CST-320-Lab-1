@@ -12,8 +12,8 @@
 
 #include "tokens.h"
 
-#define DO_RETURN(a) return (a)
-//#define DO_RETURN(a) return Return(a)
+//#define DO_RETURN(a) return (a)
+#define DO_RETURN(a) return Return(a)
 int Return(int val);
 
 %}
@@ -26,10 +26,29 @@ int Return(int val);
 
     /* definitions go here. period is an example. */
 period          ['.']
+int             [0-9]
 
 %%
 
     // token definitions go here. "if" is an example.
+[q]?                         DO_RETURN(JUNK_TOKEN);
+
+{period}                    DO_RETURN('.');
+[(]                         DO_RETURN('(');
+[)]                         DO_RETURN(')');
+[{]                         DO_RETURN('{');
+[}]                         DO_RETURN('}');
+['[']                       DO_RETURN('[');
+[']']                       DO_RETURN(']');
+[,]                         DO_RETURN(',');
+[;]                         DO_RETURN(';');
+[=]                         DO_RETURN('=');
+[+]                         DO_RETURN('+');
+[-]                         DO_RETURN('-');
+[*]                         DO_RETURN('*');
+[/]                         DO_RETURN('/');
+[%]                         DO_RETURN('%');
+
 "array"                     DO_RETURN(ARRAY);
 "if"                        DO_RETURN(IF);
 "else"                      DO_RETURN(ELSE);
@@ -41,6 +60,14 @@ period          ['.']
 "struct"                    DO_RETURN(STRUCT);
 "return"                    DO_RETURN(RETURN);
 
+{int}+                      DO_RETURN(INT_VAL);
+{int}+{period}{int}+        DO_RETURN(FLOAT_VAL);
+[a-zA-Z_][a-zA-Z0-9_]*      DO_RETURN(IDENTIFIER);
+[=][=]                      DO_RETURN(EQUALS);
+[&][&]                      DO_RETURN(AND);
+[|][|]                      DO_RETURN(OR);
+
+[/][/].+$
 
 %%
 
