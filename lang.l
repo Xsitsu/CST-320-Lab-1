@@ -27,7 +27,6 @@ int Return(int val);
     /* definitions go here. period is an example. */
 period          ['.']
 int             [0-9]
-closebracket    ]
 whitespace      [ \t\n]
 
 %%
@@ -36,20 +35,20 @@ whitespace      [ \t\n]
 {whitespace}+
 
 {period}                    DO_RETURN('.');
-[(]                         DO_RETURN('(');
-[)]                         DO_RETURN(')');
-[{]                         DO_RETURN('{');
-[}]                         DO_RETURN('}');
-['[']                       DO_RETURN('[');
-{closebracket}              DO_RETURN(']');
-[,]                         DO_RETURN(',');
-[;]                         DO_RETURN(';');
-[=]                         DO_RETURN('=');
-[+]                         DO_RETURN('+');
-[-]                         DO_RETURN('-');
-[*]                         DO_RETURN('*');
-[/]                         DO_RETURN('/');
-[%]                         DO_RETURN('%');
+"("                         DO_RETURN('(');
+")"                         DO_RETURN(')');
+"{"                         DO_RETURN('{');
+"}"                         DO_RETURN('}');
+"["                         DO_RETURN('[');
+"]"                         DO_RETURN(']');
+","                         DO_RETURN(',');
+";"                         DO_RETURN(';');
+"="                         DO_RETURN('=');
+"+"                         DO_RETURN('+');
+"-"                         DO_RETURN('-');
+"*"                         DO_RETURN('*');
+"/"                         DO_RETURN('/');
+"%"                         DO_RETURN('%');
 
 "array"                     DO_RETURN(ARRAY);
 "if"                        DO_RETURN(IF);
@@ -65,11 +64,11 @@ whitespace      [ \t\n]
 {int}+                      DO_RETURN(INT_VAL);
 {int}+{period}{int}+        DO_RETURN(FLOAT_VAL);
 [a-zA-Z_][a-zA-Z0-9_]*      DO_RETURN(IDENTIFIER);
-[=][=]                      DO_RETURN(EQUALS);
-[&][&]                      DO_RETURN(AND);
-[|][|]                      DO_RETURN(OR);
+"=="                        DO_RETURN(EQUALS);
+"&&"                        DO_RETURN(AND);
+"||"                        DO_RETURN(OR);
 
-[/][/].+$
+"//".+$
 
 .                           DO_RETURN(JUNK_TOKEN);
 
