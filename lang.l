@@ -30,7 +30,17 @@ period          ['.']
 %%
 
     // token definitions go here. "if" is an example.
+"array"                     DO_RETURN(ARRAY);
 "if"                        DO_RETURN(IF);
+"else"                      DO_RETURN(ELSE);
+"while"                     DO_RETURN(WHILE);
+"print"                     DO_RETURN(PRINT);
+"int"                       DO_RETURN(INT);
+"float"                     DO_RETURN(FLOAT);
+"char"                      DO_RETURN(CHAR);
+"struct"                    DO_RETURN(STRUCT);
+"return"                    DO_RETURN(RETURN);
+
 
 %%
 
