@@ -12,8 +12,8 @@
 
 #include "tokens.h"
 
-//#define DO_RETURN(a) return (a)
-#define DO_RETURN(a) return Return(a)
+#define DO_RETURN(a) return (a)
+//#define DO_RETURN(a) return Return(a)
 int Return(int val);
 
 %}
@@ -27,11 +27,13 @@ int Return(int val);
     /* definitions go here. period is an example. */
 period          ['.']
 int             [0-9]
+closebracket    ]
+whitespace      [ \t\n]
 
 %%
 
     // token definitions go here. "if" is an example.
-[q]?                         DO_RETURN(JUNK_TOKEN);
+{whitespace}+
 
 {period}                    DO_RETURN('.');
 [(]                         DO_RETURN('(');
@@ -39,7 +41,7 @@ int             [0-9]
 [{]                         DO_RETURN('{');
 [}]                         DO_RETURN('}');
 ['[']                       DO_RETURN('[');
-[']']                       DO_RETURN(']');
+{closebracket}              DO_RETURN(']');
 [,]                         DO_RETURN(',');
 [;]                         DO_RETURN(';');
 [=]                         DO_RETURN('=');
@@ -68,6 +70,8 @@ int             [0-9]
 [|][|]                      DO_RETURN(OR);
 
 [/][/].+$
+
+.                           DO_RETURN(JUNK_TOKEN);
 
 %%
 
