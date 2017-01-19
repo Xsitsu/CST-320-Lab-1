@@ -25,7 +25,7 @@ int Return(int val);
 
 
     /* definitions go here. period is an example. */
-period          ['.']
+period          [.]
 int             [0-9]
 whitespace      [ \t\n]
 
@@ -34,7 +34,7 @@ whitespace      [ \t\n]
     // token definitions go here. "if" is an example.
 {whitespace}+
 
-{period}                    DO_RETURN('.');
+"."                         DO_RETURN('.');
 "("                         DO_RETURN('(');
 ")"                         DO_RETURN(')');
 "{"                         DO_RETURN('{');
