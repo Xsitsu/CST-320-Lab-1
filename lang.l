@@ -11,6 +11,8 @@
 //
 
 #include "tokens.h"
+#include "cSymbolTableStack.h"
+#include "lex.h"
 
 #define DO_RETURN(a) return (a)
 //#define DO_RETURN(a) return Return(a)
@@ -58,11 +60,6 @@ identP          [a-zA-Z_0-9]
                                 DecreaseScope();
                                 return yytext[0];
                             }
-{ident}{identP}*            {
-                                yylval.symbol = Insert(yytext);
-                                DO_RETURN(IDENTIFIER);
-                            }
-
 
 "array"                     DO_RETURN(ARRAY);
 "if"                        DO_RETURN(IF);
@@ -77,10 +74,15 @@ identP          [a-zA-Z_0-9]
 
 {int}+                      DO_RETURN(INT_VAL);
 {int}+{period}{int}+        DO_RETURN(FLOAT_VAL);
-[a-zA-Z_][a-zA-Z0-9_]*      DO_RETURN(IDENTIFIER);
 "=="                        DO_RETURN(EQUALS);
 "&&"                        DO_RETURN(AND);
 "||"                        DO_RETURN(OR);
+
+{ident}{identP}*            {
+                                yylval.symbol = Insert(yytext);
+                                DO_RETURN(IDENTIFIER);
+                            }
+
 
 "//".+$
 

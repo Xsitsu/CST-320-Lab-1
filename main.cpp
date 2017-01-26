@@ -22,6 +22,8 @@
 // if we had a cSymbolTable.cpp, this definition could go there
 cSymbolTable g_SymbolTable;
 
+yylval_t yylval;
+
 // If we had a cSymbol.cpp, this definition would go there
 long long cSymbol::nextId = 0;
 
