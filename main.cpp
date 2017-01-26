@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     int result = 0;
     int token;
 
-    std::cout << "Philip Howard" << std::endl;
+    std::cout << "Jacob Locke" << std::endl;
 
     if (argc > 1)
     {

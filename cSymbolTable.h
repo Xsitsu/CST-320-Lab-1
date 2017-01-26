@@ -2,11 +2,17 @@
 
 #include <unordered_map>
 
+#include "cSymbol.h"
+
+using std::string;
+
 class cSymbolTable
 {
 public:
+    void InsertSymbol(cSymbol* symbol);
+    cSymbol* GetSymbol(string name);
 
 private:
-    std::unordered_map<std::string, std::string> hash_table;
+    std::unordered_map<string, cSymbol*> table;
 
 };
