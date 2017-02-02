@@ -1,15 +1,28 @@
 #include "cSymbolTable.h"
 
-void cSymbolTable::InsertSymbol(cSymbol* symbol)
+cSymbol* cSymbolTable::InsertSymbol(char* yytext)
 {
-    string name = symbol->GetName();
-    table[name] = symbol;
+    symbtbl* useTable = &tableList.back();
+    
+    std::string name;
+    name += yytext;
+    
+    cSymbol* symbol = (*useTable)[name];
+    if (symbol == nullptr)
+    {
+        symbol = new cSymbol(name);
+        (*useTable)[name] = symbol;
+    }
+    
+    return symbol;
 }
 
-cSymbol* cSymbolTable::GetSymbol(string name)
+void cSymbolTable::IncreaseScope()
 {
-    cSymbol* ptr = nullptr;
-    ptr = table[name];
-    return ptr;
+    tableList.push_back(symbtbl());
 }
 
+void cSymbolTable::DecreaseScope()
+{
+    tableList.pop_back();
+}

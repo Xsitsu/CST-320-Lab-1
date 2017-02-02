@@ -1,3 +1,17 @@
+Lab 3 Feedback
+
+73
+
+-5 cSymbol* cSymbolTable::GetSymbol(string name) is not correct. If you call it for a symbol not in the table, the effect will be to place that symbol into the table.
+
+-2 std::list<cSymbolTable> tableList; is a global variable. It should have been an instance variable of a class that represents your complete symbol table.
+
+-10 Your g_SymbolTable represents a single symbol table. It should represent a stack of symbol tables.
+
+-10 You did not implement the global lookup as required by the write-up
+
+*******************************
+
 Lab1 Feedback
 
 95

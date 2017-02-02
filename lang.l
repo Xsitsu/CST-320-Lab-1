@@ -11,7 +11,6 @@
 //
 
 #include "tokens.h"
-#include "cSymbolTableStack.h"
 #include "lex.h"
 
 #define DO_RETURN(a) return (a)
@@ -53,11 +52,11 @@ identP          [a-zA-Z_0-9]
 "%"                         DO_RETURN('%');
 
 "{"                         {
-                                IncreaseScope();
+                                g_SymbolTable.IncreaseScope();
                                 return yytext[0];
                             }
 "}"                         {
-                                DecreaseScope();
+                                g_SymbolTable.DecreaseScope();
                                 return yytext[0];
                             }
 
@@ -79,7 +78,7 @@ identP          [a-zA-Z_0-9]
 "||"                        DO_RETURN(OR);
 
 {ident}{identP}*            {
-                                yylval.symbol = Insert(yytext);
+                                yylval.symbol = g_SymbolTable.InsertSymbol(yytext);
                                 DO_RETURN(IDENTIFIER);
                             }
 
