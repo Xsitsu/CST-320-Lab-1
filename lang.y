@@ -135,7 +135,7 @@ paramsspec: paramsspec',' paramspec
 
 paramspec:  var_decl            {}
 
-stmts:      stmts stmt          {}
+stmts:      stmts stmt          { $$->Insert($2); }
         |   stmt                { $$ = new cStmtsNode($1); }
 
 stmt:       IF '(' expr ')' stmts ENDIF ';'
