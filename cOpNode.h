@@ -15,39 +15,51 @@
 
 class cOpNode : public cAstNode
 {
-    public:
-        cOpNode(int op) : cAstNode()
+public:
+    cOpNode(int op) : cAstNode()
+    {
+        m_op = op;
+    }
+    
+    virtual string NodeType()       { return "op"; }
+    virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+    virtual string AttributesToString()   
+    { 
+        string result(" value='");
+        
+        switch (m_op)
         {
-            m_op = op;
+        case EQUALS:
+            result += "==";
+            break;
+        case OR:
+            result += "||";
+            break;
+        case AND:
+            result += "&&";
+            break;
+        case MULT:
+            result += "*";
+            break;
+        case DIV:
+            result += "/";
+            break;
+        case ADD:
+            result += "+";
+            break;
+        case SUB:
+            result += "-";
+            break;
+        default:
+            result += (char)m_op;
+            break;
         }
-
-        virtual string NodeType()       { return "op"; }
-        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-        virtual string AttributesToString()   
-        { 
-            string result(" value='");
-
-            switch (m_op)
-            {
-                case EQUALS:
-                    result += "==";
-                    break;
-                case OR:
-                    result += "||";
-                    break;
-                case AND:
-                    result += "&&";
-                    break;
-                default:
-                    result += (char)m_op;
-                    break;
-            }
-
-            result += "'";
-
-            return result;
-        }
-    protected:
-        int m_op;      // the operand
+        
+        result += "'";
+        
+        return result;
+    }
+protected:
+    int m_op;      // the operand
 };
 

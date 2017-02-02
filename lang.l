@@ -73,9 +73,8 @@ whitespace      '[\t\n\r ]'
                                 DO_RETURN(INT_VAL); 
                             }
 [0-9]+\.[0-9]+              {
-                              // NOTE: this code will have to be udpated as
-                              // part of this lab.
-                              DO_RETURN(FLOAT_VAL);
+                                yylval.float_val = atof(yytext);
+                                DO_RETURN(FLOAT_VAL);
                             }
 "=="                        DO_RETURN(EQUALS);
 "&&"                        DO_RETURN(AND);

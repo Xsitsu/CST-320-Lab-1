@@ -25,6 +25,7 @@ clean:
 	rm -f lang
 	rm -f out.xml
 	rm -f out2.xml
+	rm -rf *.*~
 
 .cpp.o:
 	g++ $(COPTS) $? -o $@

@@ -49,6 +49,10 @@
 %token <int_val>   AND
 %token <int_val>   OR
 %token <int_val>   EQUALS
+%token <int_val>   MULT
+%token <int_val>   DIV
+%token <int_val>   ADD
+%token <int_val>   SUB
 
 %token  PRINT
 %token  WHILE IF ELSE ENDIF
@@ -172,18 +176,17 @@ param:      expr                {}
 expr:       expr EQUALS addit   {}
         |   addit               { $$ = $1; }
 
-addit:      addit '+' term      {}
-        |   addit '-' term      {}
+addit:      addit '+' term      { $$ = new cMathExprNode($$, new cOpNode(ADD), $3); }
+        |   addit '-' term      { $$ = new cMathExprNode($$, new cOpNode(SUB), $3); }
         |   term                { $$ = $1; }
-
-term:       term '*' fact       {}
-        |   term '/' fact       {}
+term:       term '*' fact       { $$ = new cMathExprNode($$, new cOpNode(MULT), $3); }
+        |   term '/' fact       { $$ = new cMathExprNode($$, new cOpNode(DIV), $3); }
         |   term '%' fact       {}
         |   fact                { $$ = $1; }
 
 fact:        '(' expr ')'       {}
         |   INT_VAL             { $$ = new cIntExprNode($1); }
-        |   FLOAT_VAL           {}
+        |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
         |   varref              {}
 
 %%
