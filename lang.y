@@ -150,8 +150,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
                                 { $$ = new cWhileNode($3, $5);  }
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
-        |   lval '=' expr ';'   {}
-        |   lval '=' func_call ';'   {}
+        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
+        |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); }
         |   func_call ';'       {}
         |   block               {}
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
@@ -162,7 +162,7 @@ func_call:  IDENTIFIER '(' params ')' {}
 
 varref:   varref '.' varpart    {}
         | varref '[' expr ']'   {}
-        | varpart               { $$ = $1; }
+        | varpart               { $$ = new cVarRefNode($1); }
 
 varpart:  IDENTIFIER            { $$ = $1; }
 
@@ -187,7 +187,7 @@ term:       term '*' fact       { $$ = new cMathExprNode($$, new cOpNode(MULT), 
 fact:        '(' expr ')'       { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
-        |   varref              { $$ = new cVarRefNode($1); }
+        |   varref              {}
 
 %%
 
