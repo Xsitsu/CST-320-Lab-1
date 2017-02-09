@@ -11,6 +11,13 @@ public:
         this->AddChild(expr);
         this->AddChild(stmts);
     }
+
+    cIfNode(cExprNode* expr, cStmtsNode* stmts, cStmtsNode* stmts2)
+    {
+        this->AddChild(expr);
+        this->AddChild(stmts);
+        this->AddChild(stmts2);
+    }
     
     virtual string NodeType() { return string("if"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
