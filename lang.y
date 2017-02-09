@@ -108,15 +108,15 @@ close:  '}'                     { g_SymbolTable.DecreaseScope();
                                   $$ = nullptr; // probably want to change this
                                 }
 
-decls:      decls decl          {}
-        |   decl                {}
+decls:      decls decl          { $$->AddChild($2); }
+        |   decl                { $$ = new cDeclsNode($1); }
 decl:       var_decl ';'        { $$ = $1; }
         |   struct_decl ';'     {}
         |   array_decl ';'      {}
         |   func_decl           {}
         |   error ';'           {}
 
-var_decl:   TYPE_ID IDENTIFIER  {}
+var_decl:   TYPE_ID IDENTIFIER  {$$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {}
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
@@ -162,7 +162,7 @@ func_call:  IDENTIFIER '(' params ')' {}
 
 varref:   varref '.' varpart    {}
         | varref '[' expr ']'   {}
-        | varpart               {}
+        | varpart               { $$ = $1; }
 
 varpart:  IDENTIFIER            { $$ = $1; }
 
@@ -187,7 +187,7 @@ term:       term '*' fact       { $$ = new cMathExprNode($$, new cOpNode(MULT), 
 fact:        '(' expr ')'       {}
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
-        |   varref              {}
+        |   varref              { $$ = new cVarRefNode($1); }
 
 %%
 

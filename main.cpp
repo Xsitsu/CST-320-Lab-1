@@ -27,6 +27,11 @@ int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
 
+    g_SymbolTable.Insert(new cSymbol("char"));
+    g_SymbolTable.Insert(new cSymbol("int"));
+    g_SymbolTable.Insert(new cSymbol("float"));
+
+
     const char *outfile_name;
     int result = 0;
     std::streambuf *cout_buf = std::cout.rdbuf();
