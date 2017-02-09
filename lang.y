@@ -70,9 +70,9 @@
 %type <decl_node> var_decl
 %type <decl_node> struct_decl
 %type <decl_node> array_decl
-%type <ast_node> func_decl
-%type <ast_node> func_header
-%type <symbol> func_prefix
+%type <decl_node> func_decl
+%type <decl_node> func_header
+%type <decl_node> func_prefix
 %type <ast_node> func_call
 %type <ast_node> paramsspec
 %type <ast_node> paramspec
@@ -110,7 +110,7 @@ close:  '}'                     { g_SymbolTable.DecreaseScope();
 
 decls:      decls decl          { $$->AddChild($2); }
         |   decl                { $$ = new cDeclsNode($1); }
-decl:       var_decl ';'        { $$ = $1; }
+decl:       var_decl ';'        {}
         |   struct_decl ';'     {}
         |   array_decl ';'      {}
         |   func_decl           {}
@@ -142,17 +142,27 @@ array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
 func_decl:  func_header ';'
                                 {}
         |   func_header  '{' decls stmts '}'
-                                {}
+                                {
+                                    $$->AddChild($3);
+                                    $$->AddChild($4);
+                                }
         |   func_header  '{' stmts '}'
-                                {}
+                                {
+                                    $$->AddChild($3);
+                                }
 func_header: func_prefix paramsspec ')'
-                                {}
+                                {
+                                    $$->AddChild($2);
+                                }
         |    func_prefix ')'    {}
+
 func_prefix: TYPE_ID IDENTIFIER '('
-                                {}
+                                {
+                                    $$ = new cFuncDeclNode($1, $2);
+                                }
 paramsspec: paramsspec',' paramspec 
-                                {}
-        |   paramspec           {}
+                                { $$->AddChild($3); }
+        |   paramspec           { $$ = new cParamsNode($1); }
 
 paramspec:  var_decl            {}
 
