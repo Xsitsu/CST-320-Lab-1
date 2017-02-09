@@ -12,6 +12,12 @@ class cVarRefNode : public cExprNode
             this->AddChild(node);
         }
 
+        cVarRefNode(cAstNode* node, cAstNode* node2)
+        {
+            this->AddChild(node);
+            this->AddChild(node2);
+        }
+
         virtual string NodeType() { return string("varref"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

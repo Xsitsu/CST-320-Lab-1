@@ -50,31 +50,20 @@ whitespace      '[\t\n\r ]'
 "print"                     DO_RETURN(PRINT);
 
     /* Note: The following three lines will need to be changed */
-"int"                       {
-                                yylval.symbol = g_SymbolTable.Find(yytext);
-                                DO_RETURN(TYPE_ID);
-                            }
-
-"float"                     {
-                                yylval.symbol = g_SymbolTable.Find(yytext);
-                                DO_RETURN(TYPE_ID);
-                            }
-
-"char"                      {
-                                yylval.symbol = g_SymbolTable.Find(yytext);
-                                DO_RETURN(TYPE_ID);
-                            }
 
 "struct"                    DO_RETURN(STRUCT);
 "array"                     DO_RETURN(ARRAY);
 "return"                    DO_RETURN(RETURN);
 [a-zA-Z_][a-zA-Z0-9_]*      { 
-                              // NOTE: this code will have to be changed
-                              // as part of this lab
                               yylval.symbol = g_SymbolTable.Find(yytext);
                               if (yylval.symbol == nullptr)
                               {
                                   yylval.symbol = new cSymbol(yytext);
+                              }
+
+                              if (yylval.symbol->GetIsType())
+                              {
+                                  DO_RETURN(TYPE_ID);
                               }
                               DO_RETURN(IDENTIFIER);
                             }

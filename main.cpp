@@ -27,9 +27,9 @@ int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
 
-    g_SymbolTable.Insert(new cSymbol("char"));
-    g_SymbolTable.Insert(new cSymbol("int"));
-    g_SymbolTable.Insert(new cSymbol("float"));
+    g_SymbolTable.Insert(new cSymbol("char", true));
+    g_SymbolTable.Insert(new cSymbol("int", true));
+    g_SymbolTable.Insert(new cSymbol("float", true));
 
 
     const char *outfile_name;

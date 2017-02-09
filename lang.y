@@ -126,7 +126,16 @@ var_decl:   TYPE_ID IDENTIFIER  {
                                 }
 
 struct_decl:  STRUCT open decls close IDENTIFIER    
-                                {}
+                                {
+                                    if (g_SymbolTable.Find($5->GetName()))
+                                    {
+                                        $5 = new cSymbol($5->GetName());
+                                    }
+                                    $5->SetIsType(true);
+                                    g_SymbolTable.Insert($5);
+                                    $$ = new cStructDeclNode($3, $5);
+                                }
+
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 {}
 
@@ -168,7 +177,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
 func_call:  IDENTIFIER '(' params ')' {}
         |   IDENTIFIER '(' ')'  {}
 
-varref:   varref '.' varpart    {}
+varref:   varref '.' varpart    { $$ = $1; $$->AddChild($3); }
         | varref '[' expr ']'   {}
         | varpart               { $$ = new cVarRefNode($1); }
 
