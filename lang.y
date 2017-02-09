@@ -143,7 +143,7 @@ stmts:      stmts stmt          { $$->Insert($2); }
         |   stmt                { $$ = new cStmtsNode($1); }
 
 stmt:       IF '(' expr ')' stmts ENDIF ';'
-                                {}
+                                { $$ = new cIfNode($3, $5); }
         |   IF '(' expr ')' stmts ELSE stmts ENDIF ';'
                                 {}
         |   WHILE '(' expr ')' stmt 
@@ -154,7 +154,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   lval '=' func_call ';'   {}
         |   func_call ';'       {}
         |   block               {}
-        |   RETURN expr ';'     {}
+        |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
 func_call:  IDENTIFIER '(' params ')' {}
@@ -184,7 +184,7 @@ term:       term '*' fact       { $$ = new cMathExprNode($$, new cOpNode(MULT), 
         |   term '%' fact       {}
         |   fact                { $$ = $1; }
 
-fact:        '(' expr ')'       {}
+fact:        '(' expr ')'       { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
         |   varref              { $$ = new cVarRefNode($1); }

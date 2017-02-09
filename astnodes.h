@@ -26,3 +26,5 @@
 #include "cMathExprNode.h"
 #include "cVarDeclNode.h"
 #include "cVarRefNode.h"
+#include "cIfNode.h"
+#include "cReturnNode.h"
