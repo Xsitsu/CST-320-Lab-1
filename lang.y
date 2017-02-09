@@ -116,7 +116,15 @@ decl:       var_decl ';'        { $$ = $1; }
         |   func_decl           {}
         |   error ';'           {}
 
-var_decl:   TYPE_ID IDENTIFIER  {$$ = new cVarDeclNode($1, $2); }
+var_decl:   TYPE_ID IDENTIFIER  {
+                                    if (g_SymbolTable.Find($2->GetName()))
+                                    {
+                                        $2 = new cSymbol($2->GetName());
+                                    }
+                                    g_SymbolTable.Insert($2);
+                                    $$ = new cVarDeclNode($1, $2);
+                                }
+
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {}
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
