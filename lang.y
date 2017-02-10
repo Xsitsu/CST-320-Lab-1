@@ -138,7 +138,15 @@ struct_decl:  STRUCT open decls close IDENTIFIER
                                 }
 
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
-                                {}
+                                {
+                                    if (g_SymbolTable.Find($6->GetName()))
+                                    {
+                                        $6 = new cSymbol($6->GetName());
+                                    }
+                                    $6->SetIsType(true);
+                                    g_SymbolTable.Insert($6);
+                                    $$ = new cArrayDeclNode($4, $2, $6);
+                                }
 
 func_decl:  func_header ';'
                                 {}
@@ -197,7 +205,7 @@ func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncCallNode($1, $3); }
         |   IDENTIFIER '(' ')'  { $$ = new cFuncCallNode($1); }
 
 varref:   varref '.' varpart    { $$ = $1; $$->AddChild($3); }
-        | varref '[' expr ']'   {}
+        | varref '[' expr ']'   { $$ = $1; $$->AddChild($3); }
         | varpart               { $$ = new cVarRefNode($1); }
 
 varpart:  IDENTIFIER            { $$ = $1; }
