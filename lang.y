@@ -113,7 +113,7 @@ decls:      decls decl          { $$->AddChild($2); }
 decl:       var_decl ';'        {}
         |   struct_decl ';'     {}
         |   array_decl ';'      {}
-        |   func_decl           {}
+        |   func_decl           { g_SymbolTable.DecreaseScope(); }
         |   error ';'           {}
 
 var_decl:   TYPE_ID IDENTIFIER  {
@@ -165,6 +165,8 @@ func_prefix: TYPE_ID IDENTIFIER '('
                                     g_SymbolTable.Insert($2);
 
                                     $$ = new cFuncDeclNode($1, $2);
+                                    
+                                    g_SymbolTable.IncreaseScope();
                                 }
 paramsspec: paramsspec',' paramspec 
                                 { $$->AddChild($3); }
