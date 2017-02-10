@@ -50,6 +50,9 @@ public:
         case SUB:
             result += "-";
             break;
+        case MOD:
+            result += "%";
+            break;
         default:
             result += (char)m_op;
             break;

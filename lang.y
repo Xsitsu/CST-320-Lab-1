@@ -53,6 +53,7 @@
 %token <int_val>   DIV
 %token <int_val>   ADD
 %token <int_val>   SUB
+%token <int_val>   MOD
 
 %token  PRINT
 %token  WHILE IF ELSE ENDIF
@@ -208,7 +209,7 @@ params:     params',' param     { $$ = $1; $$->AddChild($3); }
 
 param:      expr                {}
 
-expr:       expr EQUALS addit   {}
+expr:       expr EQUALS addit   { $$ = new cMathExprNode($$, new cOpNode(EQUALS), $3); }
         |   addit               { $$ = $1; }
 
 addit:      addit '+' term      { $$ = new cMathExprNode($$, new cOpNode(ADD), $3); }
@@ -216,7 +217,7 @@ addit:      addit '+' term      { $$ = new cMathExprNode($$, new cOpNode(ADD), $
         |   term                { $$ = $1; }
 term:       term '*' fact       { $$ = new cMathExprNode($$, new cOpNode(MULT), $3); }
         |   term '/' fact       { $$ = new cMathExprNode($$, new cOpNode(DIV), $3); }
-        |   term '%' fact       {}
+        |   term '%' fact       { $$ = new cMathExprNode($$, new cOpNode(MOD), $3); }
         |   fact                { $$ = $1; }
 
 fact:        '(' expr ')'       { $$ = $2; }
