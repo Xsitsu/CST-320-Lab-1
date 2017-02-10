@@ -33,3 +33,5 @@
 #include "cStructDeclNode.h"
 #include "cFuncDeclNode.h"
 #include "cParamsNode.h"
+#include "cFuncCallNode.h"
+#include "cParamsListNode.h"

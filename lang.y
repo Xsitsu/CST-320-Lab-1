@@ -75,12 +75,12 @@
 %type <decl_node> func_prefix
 %type <ast_node> func_call
 %type <ast_node> paramsspec
-%type <ast_node> paramspec
+%type <decl_node> paramspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
 %type <ast_node> lval
 %type <ast_node> params
-%type <ast_node> param
+%type <expr_node> param
 %type <expr_node> expr
 %type <expr_node> addit
 %type <expr_node> term
@@ -158,6 +158,12 @@ func_header: func_prefix paramsspec ')'
 
 func_prefix: TYPE_ID IDENTIFIER '('
                                 {
+                                    if (g_SymbolTable.Find($2->GetName()))
+                                    {
+                                        $2 = new cSymbol($2->GetName());
+                                    }
+                                    g_SymbolTable.Insert($2);
+
                                     $$ = new cFuncDeclNode($1, $2);
                                 }
 paramsspec: paramsspec',' paramspec 
@@ -184,8 +190,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
-func_call:  IDENTIFIER '(' params ')' {}
-        |   IDENTIFIER '(' ')'  {}
+func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncCallNode($1, $3); }
+        |   IDENTIFIER '(' ')'  { $$ = new cFuncCallNode($1); }
 
 varref:   varref '.' varpart    { $$ = $1; $$->AddChild($3); }
         | varref '[' expr ']'   {}
@@ -195,8 +201,8 @@ varpart:  IDENTIFIER            { $$ = $1; }
 
 lval:     varref                { $$ = $1; }
 
-params:     params',' param     {}
-        |   param               {}
+params:     params',' param     { $$ = $1; $$->AddChild($3); }
+        |   param               { $$ = new cParamsListNode($1); }
 
 param:      expr                {}
 
