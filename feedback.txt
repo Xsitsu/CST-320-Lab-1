@@ -1,3 +1,20 @@
+Lab 4 Feedback
+
+129
+
+-1 Instead of defining constants for DIV, etc. I think it is more clear to use '/', etc. These aren't "magic numbers" in the normal sense of the word. The only reason names were given to the two character ones is because you can't represent them using the 'x' syntax. But if you ARE going to name them, then you should be consistent and also use the name in lang.l
+
+-5 You left some grammar symbols defined as cAstNode. This means that your constructors are not type-safe. For example, cVarRefNode takes an cAstNode*, but you can't pass an if statement into the constructor and have correct behavior.
+
+-10 Several of the code snippets in lang.y were left empty. As a result, you didn't explicitly control how the AST was build for these reductions. Your tests only passed because you go lucky.
+
+-3 The act of inserting a symbol into the symbol table should be handled in the constructor for the node (see func_prefix). That logic should not be in lang.y
+
+-2 Your cFuncDeclNode implementation will make it difficult to write getters for the different pieces. For example, where are the statements stored? It could be in m_children[2], or [3], or [4]
+
+
+************************************************
+
 Lab 3 Feedback
 
 73
