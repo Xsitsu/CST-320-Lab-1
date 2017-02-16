@@ -8,7 +8,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 18, 2015
+// Date: Feb. 11, 2017
 //
 
 #include <string>
@@ -16,36 +16,48 @@
 using std::string;
 
 #include "cAstNode.h"
+#include "cDeclNode.h"
 
 class cSymbol : public cAstNode
 {
     public:
         // param is name of symbol
-        cSymbol(string name, bool is_type = false) : cAstNode()
+        cSymbol(string name) : cAstNode()
         {
             m_id = ++nextId;        // get next available ID
             m_name = name;
-            m_is_type = is_type;
+            m_decl = nullptr;
         }
 
         // return name of symbol
         string GetName() { return m_name; }
         
-        void SetIsType(bool is_type) { this->m_is_type = is_type; }
-        bool GetIsType() { return this->m_is_type; }
-        
+        // Get/Set the decl associated with this symbol
+        cDeclNode *GetDecl() { return m_decl; }
+        void SetDecl(cDeclNode *decl) { m_decl = decl; }
+
+        // return attributes for ToString()
         virtual string AttributesToString()
         {
             string result(" id=\"");
-            result += std::to_string(m_id);
-            result += "\" name=\"" + m_name + "\"";
+            result += std::to_string(m_id) + "\"";
+            result += " name=\"" + m_name + "\"";
+            if (m_decl != nullptr)
+            {
+                result += " decl=\"" + std::to_string(m_decl->GetName()->m_id);
+                result +=  "\"";
+            }
             return result;
         }
+
+        // Node type for ToString()
         virtual string NodeType() { return string("sym"); }
+
+        // standard visitor
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     protected:
         static long long nextId;        // Next avail symbol ID
         long long m_id;                 // Unique ID for this symbol
         string m_name;                  // name of symbol
-        bool m_is_type;
+        cDeclNode *m_decl;              // declaration of this symbol
 };
