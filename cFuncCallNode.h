@@ -10,7 +10,7 @@ public:
     {
         this->AddChild(name);
     }
-    cFuncCallNode(cSymbol* name, cAstNode* params)
+    cFuncCallNode(cSymbol* name, cParamsListNode* params)
     {
         this->AddChild(name);
         this->AddChild(params);

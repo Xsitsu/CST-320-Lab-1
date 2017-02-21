@@ -6,12 +6,12 @@
 class cVarDeclNode : public cDeclNode
 {
     public:
-        cVarDeclNode(cSymbol*& symbol, cSymbol*& symbol2) : cDeclNode()
+        cVarDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
         {
-            this->AddChild(symbol);
-            this->AddChild(symbol2);
+            this->AddChild(type);
+            this->AddChild(name);
             
-            symbol2->SetDecl(this);
+            name->SetDecl(this);
         }
 
         virtual string NodeType() { return string("var_decl"); }

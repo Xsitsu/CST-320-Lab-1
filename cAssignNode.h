@@ -6,8 +6,7 @@
 class cAssignNode : public cStmtNode
 {
 public:
-    //cAssignNode(cVarRefNode* ref, cExprNode* expr)
-    cAssignNode(cAstNode* ref, cAstNode* expr)
+    cAssignNode(cVarRefNode* ref, cExprNode* expr)
     {
         this->AddChild(ref);
         this->AddChild(expr);
