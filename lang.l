@@ -61,7 +61,7 @@ whitespace      '[\t\n\r ]'
                                   yylval.symbol = new cSymbol(yytext);
                               }
 
-                              if (yylval.symbol->GetIsType())
+                              if (yylval.symbol->GetDecl() && yylval.symbol->GetDecl()->IsType())
                               {
                                   DO_RETURN(TYPE_ID);
                               }

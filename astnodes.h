@@ -36,3 +36,4 @@
 #include "cFuncCallNode.h"
 #include "cParamsListNode.h"
 #include "cArrayDeclNode.h"
+#include "cBaseTypeNode.h"

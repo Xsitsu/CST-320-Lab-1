@@ -22,14 +22,21 @@
 cSymbolTable g_SymbolTable;
 long long cSymbol::nextId;
 
+void MakeBaseTypeSymbol(std::string name, int which)
+{
+    cSymbol* symbol = new cSymbol(name);
+    new cBaseTypeNode(symbol, which);
+    g_SymbolTable.Insert(symbol);
+}
+
 // takes two string args: input_file, and output_file
 int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
-
-    g_SymbolTable.Insert(new cSymbol("char", true));
-    g_SymbolTable.Insert(new cSymbol("int", true));
-    g_SymbolTable.Insert(new cSymbol("float", true));
+    
+    MakeBaseTypeSymbol("char", 1);
+    MakeBaseTypeSymbol("int", 2);
+    MakeBaseTypeSymbol("float", 3);
 
 
     const char *outfile_name;

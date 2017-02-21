@@ -12,6 +12,8 @@ public:
         this->m_size = size;
         this->AddChild(type);
         this->AddChild(name);
+        
+        name->SetDecl(this);
     }
     
     virtual string AttributesToString()
@@ -24,6 +26,20 @@ public:
     
     virtual string NodeType() { return string("array_decl"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+
+    virtual cSymbol* GetName()
+    {
+        return static_cast<cSymbol*>(this->GetChild(1));
+    }
+
+    virtual cDeclNode* GetType()
+    {
+        return static_cast<cSymbol*>(this->GetChild(0))->GetDecl();
+    }
+    
+    virtual bool IsArray() { return true; }
+    virtual bool IsType() { return true; }
+    
 protected:
     int m_size;
     

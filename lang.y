@@ -37,6 +37,8 @@
     int yyerror(const char *msg);
 
     cAstNode *yyast_root;
+    
+    void SemanticError(std::string error);
 %}
 
 %start  program
@@ -132,7 +134,6 @@ struct_decl:  STRUCT open decls close IDENTIFIER
                                     {
                                         $5 = new cSymbol($5->GetName());
                                     }
-                                    $5->SetIsType(true);
                                     g_SymbolTable.Insert($5);
                                     $$ = new cStructDeclNode($3, $5);
                                 }
@@ -143,7 +144,6 @@ array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                     {
                                         $6 = new cSymbol($6->GetName());
                                     }
-                                    $6->SetIsType(true);
                                     g_SymbolTable.Insert($6);
                                     $$ = new cArrayDeclNode($4, $2, $6);
                                 }
@@ -242,4 +242,12 @@ int yyerror(const char *msg)
         << yytext << " on line " << yylineno << "\n";
 
     return 0;
+}
+
+// Function that gets called when a semantic error happens
+void SemanticError(std::string error)
+{
+    std::cout << "ERROR: " << error << " on line " 
+              << yylineno << "\n";
+    yynerrs++;
 }
