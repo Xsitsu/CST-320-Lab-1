@@ -2,6 +2,7 @@
 
 #include "cAstNode.h"
 #include "cStmtNode.h"
+#include "cVarRefNode.h"
 
 class cAssignNode : public cStmtNode
 {

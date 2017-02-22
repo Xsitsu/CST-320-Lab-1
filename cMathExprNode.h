@@ -2,6 +2,7 @@
 
 #include "cAstNode.h"
 #include "cExprNode.h"
+#include "cOpNode.h"
 
 class cMathExprNode : public cExprNode
 {
