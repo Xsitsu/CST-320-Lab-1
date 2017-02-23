@@ -32,8 +32,9 @@
     cDeclNode*      decl_node;
     cDeclsNode*     decls_node;
     
-    cAstNode*       paramsspec_node;
-    cAstNode*       paramspec_node;
+    cFuncDeclNode*  funcdecl_node;
+    cParamsNode*    paramsspec_node;
+    cParamsNode*    paramspec_node;
     cParamsListNode*params_node;
     cVarRefNode*    varref_node;
     cAstNode*       varpart_node;
@@ -79,9 +80,9 @@
 %type <decl_node> var_decl
 %type <decl_node> struct_decl
 %type <decl_node> array_decl
-%type <decl_node> func_decl
-%type <decl_node> func_header
-%type <decl_node> func_prefix
+%type <funcdecl_node> func_decl
+%type <funcdecl_node> func_header
+%type <funcdecl_node> func_prefix
 %type <expr_node> func_call
 %type <paramsspec_node> paramsspec
 %type <decl_node> paramspec
@@ -159,18 +160,17 @@ func_decl:  func_header ';'
         |   func_header  '{' decls stmts '}'
                                 {
                                     $$ = $1;
-                                    $$->AddChild($3);
-                                    $$->AddChild($4);
+                                    $$->AddDefinition($3, $4);
                                 }
         |   func_header  '{' stmts '}'
                                 {
                                     $$ = $1;
-                                    $$->AddChild($3);
+                                    $$->AddDefinition(NULL, $3);
                                 }
 func_header: func_prefix paramsspec ')'
                                 {
                                     $$ = $1;
-                                    $$->AddChild($2);
+                                    $$->AddParams($2);
                                 }
         |    func_prefix ')'    {
                                     $$ = $1; 
