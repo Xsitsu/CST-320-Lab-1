@@ -5,15 +5,43 @@
 
 class cFuncDeclNode : public cDeclNode
 {
-public:
-cFuncDeclNode(cSymbol* symbol, cSymbol* symbol2) : cDeclNode()
+private:
+cFuncDeclNode(cSymbol* type, cSymbol* id) : cDeclNode()
     {
-        this->AddChild(symbol);
-        this->AddChild(symbol2);
+        this->AddChild(type);
+        this->AddChild(id);
     
-        symbol2->SetDecl(this);
+        id->SetDecl(this);
     }
 
+public:
+    static cFuncDeclNode* Make(cSymbol* type, cSymbol* id)
+    {
+        if (!g_SymbolTable.FindLocal(id->GetName()))
+        {
+            if(g_SymbolTable.Find(id->GetName()))
+            {
+                id = new cSymbol(id->GetName());
+            }
+            
+            g_SymbolTable.Insert(id);
+        }
+        
+        cDeclNode* old = g_SymbolTable.Find(id->GetName())->GetDecl();
+        if (old)
+        {
+            if (old->IsFunc() && old->GetType() == type->GetDecl())
+            {
+                cSymbol* t = old->GetType()->GetName();
+                cSymbol* i = old->GetName();
+                return new cFuncDeclNode(t, i);
+                //return static_cast<cFuncDeclNode*>(old);
+            }
+        }
+        
+        return new cFuncDeclNode(type, id);
+    }
+    
     virtual string NodeType() { return string("func"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 

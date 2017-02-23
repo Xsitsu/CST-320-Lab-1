@@ -178,13 +178,13 @@ func_header: func_prefix paramsspec ')'
 
 func_prefix: TYPE_ID IDENTIFIER '('
                                 {
-                                    if (g_SymbolTable.Find($2->GetName()))
-                                    {
-                                        $2 = new cSymbol($2->GetName());
-                                    }
-                                    g_SymbolTable.Insert($2);
+                                    //if (g_SymbolTable.Find($2->GetName()))
+                                    //{
+                                        //$2 = new cSymbol($2->GetName());
+                                    //}
+                                    //g_SymbolTable.Insert($2);
 
-                                    $$ = new cFuncDeclNode($1, $2);
+                                    $$ = cFuncDeclNode::Make($1, $2);
                                     
                                     g_SymbolTable.IncreaseScope();
                                 }
