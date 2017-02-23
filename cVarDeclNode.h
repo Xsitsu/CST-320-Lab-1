@@ -6,12 +6,29 @@
 class cVarDeclNode : public cDeclNode
 {
     public:
-        cVarDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
+        cVarDeclNode(cSymbol* type, cSymbol* id) : cDeclNode()
         {
-            this->AddChild(type);
-            this->AddChild(name);
+            if (!g_SymbolTable.FindLocal(id->GetName()))
+            {
+                if (g_SymbolTable.Find(id->GetName()))
+                {
+                    id = new cSymbol(id->GetName());
+                }
+                
+                g_SymbolTable.Insert(id);
+            }
+            else
+            {
+                string err = "Symbol ";
+                err += id->GetName();
+                err += " already defined in current scope";
+                SemanticError(err);
+            }
             
-            name->SetDecl(this);
+            this->AddChild(type);
+            this->AddChild(id);
+            
+            id->SetDecl(this);
         }
 
         virtual string NodeType() { return string("var_decl"); }

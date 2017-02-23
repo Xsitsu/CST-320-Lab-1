@@ -124,11 +124,11 @@ decl:       var_decl ';'        { $$ = $1; }
         |   error ';'           { }
 
 var_decl:   TYPE_ID IDENTIFIER  {
-                                    if (g_SymbolTable.Find($2->GetName()))
-                                    {
-                                        $2 = new cSymbol($2->GetName());
-                                    }
-                                    g_SymbolTable.Insert($2);
+                                    //if (g_SymbolTable.Find($2->GetName()))
+                                    //{
+                                        //$2 = new cSymbol($2->GetName());
+                                    //}
+                                    //g_SymbolTable.Insert($2);
                                     $$ = new cVarDeclNode($1, $2);
                                 }
 
