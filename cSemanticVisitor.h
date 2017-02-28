@@ -54,22 +54,32 @@ public:
             {
                 if (type->IsArray())
                 {
+                    cExprNode* index_node = node->GetArrayIndex(index);
+                    cDeclNode* index_type = index_node->GetUltimateType();
+                    
+                    if (!index_type->IsInt() && !index_type->IsChar())
+                    {
+                        did_error = true;
+                        
+                        std::string err = "Index of ";
+                        err += node->GetName()->GetName();
+                        err += " is not an int";
+                        this->SemanticError(node, err);
+                    }
+                    
                     type = type->GetType();
                 }
                 else
                 {
                     did_error = true;
+                    
+                    std::string err;
+                    err += type->GetName()->GetName();
+                    err += " is not an array";
+                    this->SemanticError(node, err);
                 }
                 
                 index++;
-            }
-            
-            if (did_error)
-            {
-                std::string err;
-                err += type->GetName()->GetName();
-                err += " is not an array";
-                this->SemanticError(node, err);
             }
         }
         

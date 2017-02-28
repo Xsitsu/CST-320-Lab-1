@@ -52,6 +52,10 @@ public:
     virtual cDeclNode* GetUltimateType()
     {
         cDeclNode* decl = this->GetName()->GetDecl();
+        if (!decl)
+        {
+            return nullptr;
+        }
         
         int num_indexes = this->NumArrayIndexes();
         cDeclNode* type = decl->GetType();
