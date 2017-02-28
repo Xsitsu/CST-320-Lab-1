@@ -215,8 +215,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
 func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncCallNode($1, $3); }
         |   IDENTIFIER '(' ')'  { $$ = new cFuncCallNode($1); }
 
-varref:   varref '.' varpart    { $$ = $1; $$->AddChild($3); }
-        | varref '[' expr ']'   { $$ = $1; $$->AddChild($3); }
+varref:   varref '.' varpart    { $$ = $1; }//$$->SetDereference($3); }
+        | varref '[' expr ']'   { $$ = $1; $$->AddArrayIndex($3); }
         | varpart               { $$ = new cVarRefNode($1); }
 
 varpart:  IDENTIFIER            { $$ = $1; }

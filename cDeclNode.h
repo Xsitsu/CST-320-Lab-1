@@ -11,6 +11,8 @@
 // Date: Jan. 18, 2015
 //
 
+#include <iostream>
+
 #include "cAstNode.h"
 #include "cSymbol.h"
 
@@ -21,7 +23,7 @@ cDeclNode() : cAstNode() {}
 
     virtual cSymbol* GetName() = 0;
     virtual cDeclNode* GetType() = 0;
-
+    
     virtual bool IsArray()  { return false; }
     virtual bool IsStruct() { return false; }
     virtual bool IsType()   { return false; }

@@ -44,14 +44,42 @@ public:
             err += " not defined";
             this->SemanticError(node, err);
         }
+        else
+        {
+            int num_indexes = node->NumArrayIndexes();
+            cDeclNode* type = decl->GetType();
+            bool did_error = false;
+            int index = 0;
+            while (!did_error && index < num_indexes)
+            {
+                if (type->IsArray())
+                {
+                    type = type->GetType();
+                }
+                else
+                {
+                    did_error = true;
+                }
+                
+                index++;
+            }
+            
+            if (did_error)
+            {
+                std::string err;
+                err += type->GetName()->GetName();
+                err += " is not an array";
+                this->SemanticError(node, err);
+            }
+        }
         
         VisitAllChildren(node);
     }
     
     virtual void Visit(cAssignNode* node)
     {
-        cDeclNode* lval_type = node->GetLval()->GetType();
-        cDeclNode* expr_type = node->GetExpr()->GetType();
+        cDeclNode* lval_type = node->GetLval()->GetUltimateType();
+        cDeclNode* expr_type = node->GetExpr()->GetUltimateType();
         
         if (lval_type && expr_type)
         {
