@@ -25,16 +25,31 @@ void cVisitor::VisitAllChildren(cAstNode *node)
     }
 }
 
-void cVisitor::Visit(cAstNode *node)          { VisitAllChildren(node); }
-void cVisitor::Visit(cBlockNode *node)        { VisitAllChildren(node); }
-void cVisitor::Visit(cDeclNode *node)         { VisitAllChildren(node); }
-void cVisitor::Visit(cDeclsNode *node)        { VisitAllChildren(node); }
-void cVisitor::Visit(cExprNode *node)         { VisitAllChildren(node); }
-void cVisitor::Visit(cIntExprNode *node)      { VisitAllChildren(node); }
-void cVisitor::Visit(cOpNode *node)           { VisitAllChildren(node); }
-void cVisitor::Visit(cPrintNode *node)        { VisitAllChildren(node); }
-void cVisitor::Visit(cProgramNode *node)      { VisitAllChildren(node); }
-void cVisitor::Visit(cStmtNode *node)         { VisitAllChildren(node); }
-void cVisitor::Visit(cStmtsNode *node)        { VisitAllChildren(node); }
-void cVisitor::Visit(cSymbol *node)           { VisitAllChildren(node); }
-
+    
+void cVisitor::Visit(cArrayDeclNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cAssignNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cAstNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cBaseTypeNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cBlockNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cDeclNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cDeclsNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cExprNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cFloatExprNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncCallNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncDeclNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cIfNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cIntExprNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cMathExprNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cOpNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cParamsListNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cParamsNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cPrintNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cProgramNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cReturnNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cStmtNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cStmtsNode *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cStructDeclNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cSymbol *node) { VisitAllChildren(node); }
+void cVisitor::Visit(cVarRefNode* node) { VisitAllChildren(node); }
+void cVisitor::Visit(cWhileNode* node) { VisitAllChildren(node); }
+    

@@ -17,14 +17,20 @@ using std::vector;
 
 #include "cVisitor.h"
 
-void SemanticError(std::string err);
+
+extern int yylineno;
+extern void SemanticError(std::string err);
 
 class cAstNode
 {
     public:
         typedef vector<cAstNode*>::iterator iterator;
 
-        cAstNode() {}
+        cAstNode()
+        {
+            m_lineNumber = yylineno;
+            m_hasSemanticError = false;
+        }
 
         void AddChild(cAstNode *child)
         {
@@ -79,9 +85,15 @@ class cAstNode
         virtual string AttributesToString()   { return string(""); }
         virtual string NodeType() = 0; //      { return "AST"; }
         virtual void Visit(cVisitor *visitor) = 0;
-
+        
+        void SetHasError() { m_hasSemanticError = true; }
+        bool HasError() { return m_hasSemanticError; }
+        int LineNumber() { return m_lineNumber; }
+        
     protected:
         vector<cAstNode *> m_children;     // list of statements
-
+        int m_lineNumber;
+        bool m_hasSemanticError;
+        
 };
 
