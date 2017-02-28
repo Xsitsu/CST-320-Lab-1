@@ -21,7 +21,7 @@ cMathExprNode(cExprNode* lhs, cOpNode* op, cExprNode* rhs) : cExprNode()
     virtual cDeclNode* GetType()
     {
         cDeclNode* lhs_type = this->GetLHS()->GetType();
-        cDeclNode* rhs_type = this->GetRHS()->GetType();
+        //cDeclNode* rhs_type = this->GetRHS()->GetType();
         
         return lhs_type;
     }

@@ -26,7 +26,15 @@ public:
     
     virtual cDeclNode* GetType()
     {
-        return this->GetName()->GetDecl()->GetType();
+        cSymbol* name = this->GetName();
+        if (name->GetDecl())
+        {
+            return name->GetDecl()->GetType();
+        }
+        else
+        {
+            return nullptr;
+        }
     }
     
     virtual string NodeType() { return string("varref"); }

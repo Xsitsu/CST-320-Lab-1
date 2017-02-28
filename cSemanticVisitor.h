@@ -36,14 +36,40 @@ public:
     
     virtual void Visit(cVarRefNode* node)
     {
-        if (!node->GetName()->GetDecl())
+        cDeclNode* decl = node->GetName()->GetDecl();
+        if (!decl)
         {
             std::string err = "Symbol ";
             err += node->GetName()->GetName();
             err += " not defined";
             this->SemanticError(node, err);
         }
+        
+        VisitAllChildren(node);
     }
     
-    
+    virtual void Visit(cAssignNode* node)
+    {
+        cDeclNode* lval_type = node->GetLval()->GetType();
+        cDeclNode* expr_type = node->GetExpr()->GetType();
+        
+        if (lval_type && expr_type)
+        {
+            if (lval_type != expr_type)
+            {
+                bool is_okay = (lval_type->IsInt() && expr_type->IsChar());
+                if (!is_okay)
+                {
+                    std::string err = "Cannot assign ";
+                    err += expr_type->GetName()->GetName();
+                    err += " to ";
+                    err += lval_type->GetName()->GetName();
+                    this->SemanticError(node, err);
+                }
+            }
+        }
+        
+        VisitAllChildren(node);
+    }
+  
 };
