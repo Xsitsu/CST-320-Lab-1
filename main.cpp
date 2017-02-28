@@ -18,6 +18,8 @@
 #include "astnodes.h"
 #include "langparse.h"
 
+#include "cSemanticVisitor.h"
+
 // define global variables
 cSymbolTable g_SymbolTable;
 long long cSymbol::nextId;
@@ -33,6 +35,8 @@ void MakeBaseTypeSymbol(std::string name, int which)
 int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
+
+    cSemanticVisitor semantic_visitor;
     
     MakeBaseTypeSymbol("char", 1);
     MakeBaseTypeSymbol("int", 2);
@@ -73,6 +77,9 @@ int main(int argc, char **argv)
     result = yyparse();
     if (yyast_root != nullptr)
     {
+        semantic_visitor.VisitAllNodes(yyast_root);
+        result += semantic_visitor.NumErrors();
+        
         if (result == 0)
         {
             output << yyast_root->ToString() << std::endl;
