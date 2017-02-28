@@ -17,6 +17,11 @@ public:
         this->AddChild(symbol2);
     }
     
+    cSymbol* GetName()
+    {
+        return static_cast<cSymbol*>(this->GetChild(0));
+    }
+    
     virtual string NodeType() { return string("varref"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
 };

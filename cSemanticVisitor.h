@@ -3,7 +3,6 @@
 #include <string>
 
 #include "cVisitor.h"
-#include "cAstNode.h"
 
 using std::string;
 
@@ -33,5 +32,18 @@ public:
     {
         node->Visit(this);
     }
+    
+    
+    virtual void Visit(cVarRefNode* node)
+    {
+        if (!node->GetName()->GetDecl())
+        {
+            std::string err = "Symbol ";
+            err += node->GetName()->GetName();
+            err += " not defined";
+            this->SemanticError(node, err);
+        }
+    }
+    
     
 };

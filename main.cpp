@@ -84,7 +84,7 @@ int main(int argc, char **argv)
         {
             output << yyast_root->ToString() << std::endl;
         } else {
-            output << yynerrs << " Errors in compile\n";
+            output << yynerrs + semantic_visitor.NumErrors() << " Errors in compile\n";
         }
     }
 
