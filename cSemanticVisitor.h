@@ -132,6 +132,39 @@ public:
                     err += " is not fully defined";
                     this->SemanticError(node, err);
                 }
+                else
+                {
+                    cParamsNode* params = decl_node->GetParams();
+                    cParamsListNode* params_list = node->GetParams();
+                    
+                    if (params || params_list)
+                    {
+                        if ((!params || !params_list) || 
+                            (params->NumParams() != params_list->NumParams()))
+                        {
+                            std::string err;
+                            err += name->GetName();
+                            err += " called with wrong number of arguments";
+                            this->SemanticError(node, err);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < params->NumParams(); i++)
+                            {
+                                cVarDeclNode* param = params->GetParam(i);
+                                cExprNode* passed_param = params_list->GetParam(i);
+                                if (param->GetType() != passed_param->GetUltimateType())
+                                {
+                                    std::string err;
+                                    err += name->GetName();
+                                    err += " called with incompatible argument";
+                                    this->SemanticError(node, err);
+                                    break;
+                                }
+                            }
+                        }
+                    }   
+                }
             }
         }
         else

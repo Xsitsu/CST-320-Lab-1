@@ -26,6 +26,18 @@ public:
         return this->GetName()->GetDecl()->GetType();
     }
     
+    cParamsListNode* GetParams()
+    {
+        if (this->NumChildren() == 2)
+        {
+            return static_cast<cParamsListNode*>(this->GetChild(1));
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+    
     cFuncDeclNode* GetFuncDeclNode()
     {
         cSymbol* name = this->GetName();

@@ -19,5 +19,9 @@ public:
     {
         return static_cast<cVarDeclNode*>(this->GetChild(num));
     }
-    
+
+    int NumParams()
+    {
+        return this->NumChildren();
+    }
 };

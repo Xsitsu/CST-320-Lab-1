@@ -14,4 +14,14 @@ public:
     virtual string NodeType() { return string("params"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     
+    cExprNode* GetParam(int num)
+    {
+        return static_cast<cExprNode*>(this->GetChild(num));
+    }
+    
+    int NumParams()
+    {
+        return this->NumChildren();
+    }
+    
 };
