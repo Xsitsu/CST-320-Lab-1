@@ -122,6 +122,24 @@ public:
                 err += " is not a function";
                 this->SemanticError(node, err);
             }
+            else
+            {
+                cFuncDeclNode* decl_node = node->GetFuncDeclNode();
+                if (!decl_node->GetStmts())
+                {
+                    std::string err = "Function ";
+                    err += name->GetName();
+                    err += " is not fully defined";
+                    this->SemanticError(node, err);
+                }
+            }
+        }
+        else
+        {
+            std::string err = "Function ";
+            err += name->GetName();
+            err += " is not declared";
+            this->SemanticError(node, err);
         }
         
         VisitAllChildren(node);

@@ -26,6 +26,19 @@ public:
         return this->GetName()->GetDecl()->GetType();
     }
     
+    cFuncDeclNode* GetFuncDeclNode()
+    {
+        cSymbol* name = this->GetName();
+        if (name->GetDecl() && name->GetDecl()->IsFunc())
+        {
+            return static_cast<cFuncDeclNode*>(name->GetDecl());
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+    
     virtual string NodeType() { return string("funcCall"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     
