@@ -31,6 +31,24 @@ class cIntExprNode : public cExprNode
         }
         virtual string NodeType() { return string("int"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-    protected:
+        
+        virtual cDeclNode* GetType()
+        {
+            cSymbol* symbol;
+            if (m_value >= -128 && m_value <= 127)
+            {
+                symbol = g_SymbolTable.Find("char");
+            }
+            else
+            {
+                symbol = g_SymbolTable.Find("int");
+            }
+
+            return symbol->GetDecl();
+
+        }
+
+        
+protected:
         int m_value;        // value of integer constant (literal)
 };

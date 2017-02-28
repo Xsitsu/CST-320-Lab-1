@@ -6,20 +6,27 @@
 class cVarRefNode : public cExprNode
 {
 public:
-    cVarRefNode(cSymbol* symbol)
+    cVarRefNode(cSymbol* name)
     {
-        this->AddChild(symbol);
+        this->AddChild(name);
     }
     
+    /*
     cVarRefNode(cSymbol* symbol, cSymbol* symbol2)
     {
         this->AddChild(symbol);
         this->AddChild(symbol2);
     }
+    */
     
     cSymbol* GetName()
     {
         return static_cast<cSymbol*>(this->GetChild(0));
+    }
+    
+    virtual cDeclNode* GetType()
+    {
+        return this->GetName()->GetDecl()->GetType();
     }
     
     virtual string NodeType() { return string("varref"); }

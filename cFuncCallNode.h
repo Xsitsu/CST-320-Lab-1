@@ -16,6 +16,16 @@ public:
         this->AddChild(params);
     }
     
+    cSymbol* GetName()
+    {
+        return static_cast<cSymbol*>(this->GetChild(0));
+    }
+    
+    virtual cDeclNode* GetType()
+    {
+        return this->GetName()->GetDecl()->GetType();
+    }
+    
     virtual string NodeType() { return string("funcCall"); }
     virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     

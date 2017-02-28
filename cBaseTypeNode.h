@@ -31,12 +31,12 @@ cBaseTypeNode(cSymbol* symbol, int which) : cDeclNode()
         return m_which == 3;
     }
     
+    virtual cDeclNode* GetType() { return this; }
     
     virtual string NodeType() { return "base_type"; }
     virtual void Visit(cVisitor* visitor) { visitor->Visit(this); }
     
     virtual cSymbol* GetName() { return m_symbol; }
-    virtual cDeclNode* GetType() { return NULL; }
     
 private:
     cSymbol* m_symbol;
