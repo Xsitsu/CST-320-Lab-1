@@ -109,5 +109,23 @@ public:
         
         VisitAllChildren(node);
     }
-  
+    
+    virtual void Visit(cFuncCallNode* node)
+    {
+        cSymbol* name = node->GetName();
+        if (name->GetDecl())
+        {
+            if (!name->GetDecl()->IsFunc())
+            {
+                std::string err;
+                err += name->GetName();
+                err += " is not a function";
+                this->SemanticError(node, err);
+            }
+        }
+        
+        VisitAllChildren(node);
+    }
+    
+    
 };
