@@ -68,11 +68,11 @@ int main(int argc, char **argv)
     if (yyast_root != nullptr)
     {
         semantics.VisitAllNodes(yyast_root);
-        sizeoffset.VisitAllNodes(yyast_root);
         
         result += semantics.NumErrors();
         if (result == 0)
         {
+            sizeoffset.VisitAllNodes(yyast_root);
             output << yyast_root->ToString() << std::endl;
         } 
         else 
