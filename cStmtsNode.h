@@ -7,7 +7,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan 9, 2016
+// Date: Jan. 18, 2016
 //
 
 #include "cAstNode.h"

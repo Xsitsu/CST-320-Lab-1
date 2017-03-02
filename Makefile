@@ -6,7 +6,7 @@
 ## Author: Phil Howard 
 ## phil.howard@oit.edu
 ##
-## Date: Jan. 18, 2015
+## Date: Jan. 18, 2016
 ##
 
 COPTS=-Wall -g -c  -O0 -std=c++11
@@ -14,7 +14,7 @@ OBJS=main.o \
 	 langlex.o \
 	 langparse.o \
 	 cVisitor.o \
-	 cSymbol.o \
+	 cSymbolTable.o \
 
 all: lang
 
@@ -26,7 +26,6 @@ clean:
 	rm -f lang
 	rm -f out.xml
 	rm -f out2.xml
-	rm -rf *.*~
 
 .cpp.o:
 	g++ $(COPTS) $? -o $@

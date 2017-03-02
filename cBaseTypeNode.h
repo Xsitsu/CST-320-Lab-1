@@ -1,45 +1,57 @@
 #pragma once
+//**************************************
+// cBaseTypeNode
+//
+// Defines virtual base class for all declarations.
+//
+// Author: Phil Howard 
+// phil.howard@oit.edu
+//
+// Date: Nov. 28, 2015
+//
 
-#include "cAstNode.h"
-#include "cSymbol.h"
+#include "cDeclNode.h"
+#include "cSymbolTable.h"
 
 class cBaseTypeNode : public cDeclNode
 {
-public:
-cBaseTypeNode(cSymbol* symbol, int which) : cDeclNode()
-    {
-        m_symbol = symbol;
-        m_which = which;
-        
-        symbol->SetDecl(this);
-    }
+    public:
+        cBaseTypeNode(string name, int size, bool isFloat) 
+            : cDeclNode() 
+        {
+            m_name = name;
+            m_size = size;
+            m_isFloat = isFloat;
+        }
 
-    virtual bool IsType() { return true; }
-    
-    virtual bool IsChar()
-    {
-        return m_which == 1;
-    }
+        // return various Is* values
+        virtual bool IsFloat() { return m_isFloat; }
+        virtual bool IsInt()   { return (!m_isFloat) && (m_size>1); }
+        virtual bool IsChar()  { return (!m_isFloat && m_size==1); }
+        virtual bool IsType()  { return true; }
 
-    virtual bool IsInt()
-    {
-        return m_which == 2;
-    }
+        // return the symbol for the type
+        virtual cDeclNode *GetType() { return this; }
 
-    virtual bool IsFloat()
-    {
-        return m_which == 3;
-    }
-    
-    virtual cDeclNode* GetType() { return this; }
-    
-    virtual string NodeType() { return "base_type"; }
-    virtual void Visit(cVisitor* visitor) { visitor->Visit(this); }
-    
-    virtual cSymbol* GetName() { return m_symbol; }
-    
-private:
-    cSymbol* m_symbol;
-    int m_which;
-    
+        // return the name of the item that is declared
+        virtual cSymbol*  GetName() 
+        { return g_SymbolTable.Find(m_name); }
+
+        virtual string NodeType() { return "type"; }
+        // return a string representation of the node
+        virtual string AttributeToString()
+        {
+            return " name=\"" + m_name + "\" size=\"" + 
+                std::to_string(m_size) +
+                "\" isFloat=\"" + std::to_string(m_isFloat);
+        }
+
+        // return size of data item
+        virtual int Sizeof() { return m_size; }
+
+        virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+    protected:
+        string m_name;
+        int    m_size;
+        bool   m_isFloat;
 };

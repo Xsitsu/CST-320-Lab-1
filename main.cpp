@@ -6,7 +6,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 18, 2015
+// Date: Jan. 18, 2016
 //
 
 #include <stdio.h>
@@ -17,31 +17,17 @@
 #include "lex.h"
 #include "astnodes.h"
 #include "langparse.h"
-
-#include "cSemanticVisitor.h"
+#include "cSemantics.h"
 
 // define global variables
-cSymbolTable g_SymbolTable;
 long long cSymbol::nextId;
-
-void MakeBaseTypeSymbol(std::string name, int which)
-{
-    cSymbol* symbol = new cSymbol(name);
-    new cBaseTypeNode(symbol, which);
-    g_SymbolTable.Insert(symbol);
-}
 
 // takes two string args: input_file, and output_file
 int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
 
-    cSemanticVisitor semantic_visitor;
-    
-    MakeBaseTypeSymbol("char", 1);
-    MakeBaseTypeSymbol("int", 2);
-    MakeBaseTypeSymbol("float", 3);
-
+    cSemantics semantics;
 
     const char *outfile_name;
     int result = 0;
@@ -74,17 +60,21 @@ int main(int argc, char **argv)
     // fixup cout so it redirects to output
     std::cout.rdbuf(output.rdbuf());
 
+    g_SymbolTable.InitRootTable();
+
     result = yyparse();
     if (yyast_root != nullptr)
     {
-        semantic_visitor.VisitAllNodes(yyast_root);
-        result += semantic_visitor.NumErrors();
-        
+        semantics.VisitAllNodes(yyast_root);
+
+        result += semantics.NumErrors();
         if (result == 0)
         {
             output << yyast_root->ToString() << std::endl;
-        } else {
-            output << yynerrs + semantic_visitor.NumErrors() << " Errors in compile\n";
+        } 
+        else 
+        {
+            output << yynerrs + semantics.NumErrors() << " Errors in compile\n";
         }
     }
 

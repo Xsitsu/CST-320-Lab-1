@@ -7,7 +7,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 7, 2016
+// Date: Jan. 18, 2016
 //
 
 #include "cAstNode.h"
@@ -26,6 +26,12 @@ class cDeclsNode : public cAstNode
         void Insert(cDeclNode *decl)
         {
             AddChild(decl);
+        }
+
+        // return a particular decl from the list
+        cDeclNode* GetDecl(int index)
+        {
+            return static_cast<cDeclNode*>(GetChild(index));
         }
 
         virtual string NodeType() { return string("decls"); }

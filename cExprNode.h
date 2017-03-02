@@ -10,15 +10,15 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 18, 2015
+// Date: Jan. 18, 2016
 //
 
 #include "cStmtNode.h"
 
 class cExprNode : public cStmtNode
 {
-public:
-cExprNode() : cStmtNode() {}
-    virtual cDeclNode* GetType() = 0;
-    virtual cDeclNode* GetUltimateType() { return this->GetType(); }
+    public:
+        cExprNode() : cStmtNode() {}
+
+        virtual cDeclNode* GetType() = 0;
 };

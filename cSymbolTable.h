@@ -8,7 +8,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 26, 2016
+// Date: Jan. 18, 2016
 //
 
 #include <string>
@@ -73,11 +73,9 @@ class cSymbolTable
         {
             cSymbol *sym = nullptr;
 
-            list<symbolTable_t *>::iterator it = m_SymbolTable.begin();
-
-            while (it != m_SymbolTable.end())
+            for (auto it : m_SymbolTable)
             {
-                sym = FindInTable(*it, name);
+                sym = FindInTable(it, name);
                 if (sym != nullptr) return sym;
 
                 it++;
@@ -93,6 +91,9 @@ class cSymbolTable
             return FindInTable(m_SymbolTable.front(), name);
         }
 
+        // Place predefined symbols in the root table
+        // Called from main() prior to parsing
+        void InitRootTable();
     protected:
         // list of symbol tables. The list contains the different levels
         // in the nested table.
@@ -114,5 +115,5 @@ class cSymbolTable
 };
 
 // Declaration for the global symbol table.
-// Definition is in main.cpp
+// Definition is in cSymbolTable.cpp
 extern cSymbolTable g_SymbolTable;
