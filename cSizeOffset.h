@@ -65,6 +65,46 @@ public:
         this->size_count += node_size;
     }
     
+    void Visit(cFuncDeclNode* node)
+    {
+        int max_size = this->max_size;
+        int size_count = this->size_count;
+        int offset = this->offset;
+        
+        this->max_size = 0;
+        this->size_count = 0;
+        this->offset = 0;
+        
+        this->VisitAllChildren(node);
+        int size = this->size_count + this->max_size;
+        while (size % 4) size++;
+        node->SetSize(size);
+        
+        this->max_size = max_size;
+        this->size_count = size_count;
+        this->offset = offset;
+    }
+    
+    void Visit(cParamsNode* node)
+    {
+        int max_size = this->max_size;
+        int size_count = this->size_count;
+        int offset = this->offset;
+        
+        this->max_size = 0;
+        this->size_count = 0;
+        this->offset = -12;
+        
+        this->VisitAllChildren(node);
+        int size = this->size_count;
+        while (size % 4) size++;
+        node->SetSize(size);
+        
+        this->max_size = max_size;
+        this->size_count = size_count;
+        this->offset = offset;
+    }
+    
     
 protected:
     int max_size;

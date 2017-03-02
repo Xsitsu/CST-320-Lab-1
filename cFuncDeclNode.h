@@ -185,8 +185,29 @@ class cFuncDeclNode : public cDeclNode
 
         virtual string NodeType() { return string("func"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-    protected:
+        
+        
+        int GetSize() { return this->m_size; }
+        void SetSize(int size) { this->m_size = size; }
+        int GetOffset() { return this->m_offset; }
+        void SetOffset(int offset) { this->m_offset = offset; }
+        
+        virtual string AttributesToString()
+        {
+            string result(" size=\"");
+            result += std::to_string(this->m_size) + "\"";
+            result += " offset=\"" + std::to_string(this->m_offset) + "\"";
+            return result;
+        }
+
+        
+protected:
         bool    m_isDefinition;     // flag indicating this is a definition,
                                     // not just a declaration
         bool    m_hasParams;        // params have been set
+
+        int m_size;
+        int m_offset;
+
+
 };
