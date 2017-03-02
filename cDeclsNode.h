@@ -17,15 +17,25 @@ class cDeclsNode : public cAstNode
 {
     public:
         // param is the first decl in this decls
-        cDeclsNode(cDeclNode *decl) : cAstNode()
+        cDeclsNode(cDeclNode *decl) : cAstNode(), m_size(0), m_offset(0)
         {
-            AddChild(decl);
+            Insert(decl);
         }
 
         // Add a decl to the list
         void Insert(cDeclNode *decl)
         {
+            decl->CalculateSize();
+            
             AddChild(decl);
+            
+            decl->SetOffset(m_offset);
+            int adder = decl->GetSize();
+            this->m_size += adder;
+            
+            while ((adder%4)) adder++;
+            
+            this->m_offset += adder;
         }
 
         // return a particular decl from the list
@@ -36,4 +46,17 @@ class cDeclsNode : public cAstNode
 
         virtual string NodeType() { return string("decls"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+ 
+        virtual string AttributesToString()
+        {
+            string result(" size=\"");
+            result += std::to_string(this->m_size) + "\"";
+            return result;
+        }
+        
+        int GetSize() { return this->m_size; }
+        
+protected:
+        int m_size;
+        int m_offset;
 };

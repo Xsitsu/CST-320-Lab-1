@@ -74,4 +74,14 @@ class cVarDeclNode : public cDeclNode
 
         virtual string NodeType() { return string("var_decl"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        
+        virtual string AttributesToString()
+        {
+            string result(" size=\"");
+            result += std::to_string(this->m_size) + "\"";
+            result += " offset=\"" + std::to_string(this->m_offset) + "\"";
+            return result;
+        }
+
+        
 };

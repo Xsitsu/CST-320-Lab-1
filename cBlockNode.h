@@ -23,12 +23,28 @@ class cBlockNode : public cStmtNode
     public:
         // params are the decls and statements contained in the block
         cBlockNode(cDeclsNode *decls, cStmtsNode *statements)
-            : cStmtNode()
+            : cStmtNode(), m_size(0)
         {
             AddChild(decls);
             AddChild(statements);
+            
+            this->m_size += decls->GetSize();
         }
 
         virtual string NodeType() { return string("block"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        
+        virtual string AttributesToString()
+        {
+            string result(" size=\"");
+            result += std::to_string(this->m_size) + "\"";
+            return result;
+        }
+        
+        int GetSize() { return this->m_size; }
+        
+        
+protected:
+        int m_size;
+        
 };

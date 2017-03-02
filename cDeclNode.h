@@ -42,6 +42,7 @@ class cDeclNode : public cAstNode
         virtual bool IsIntegral() 
         { return IsInt() || IsChar(); }
         //virtual int  Sizeof()   = 0;
+        virtual int Sizeof() { return 0; }
 
         virtual string NodeType() { return string("decl"); }
         bool IsCompatibleWith(cDeclNode *decl)
@@ -57,4 +58,20 @@ class cDeclNode : public cAstNode
             return false;
         }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        
+        int GetSize() { return this->m_size; }
+        void SetOffset(int offset) { this->m_offset = offset; }
+        int GetOffset() { return this->m_offset; }
+        
+        
+        virtual void CalculateSize()
+        {
+            cDeclNode* type = this->GetType();
+            this->m_size = type->Sizeof();
+        }
+
+protected:
+        int m_size;
+        int m_offset;
+
 };
