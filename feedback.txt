@@ -1,3 +1,29 @@
+Lab 5 Feedback
+
+119
+
+-12 cFuncDeclNode includes instance variables for things that are included in the m_children vector. Also, these variables are public instead of protected or private
+
+-5 Do not do type promotion in cMathExprNode
+
+-3 Did not implement negative numbers as requested.
+
+-5 do not report redefinition of variables.
+
+-3 do not handle type promotion in assignment statements
+
+-3 erroneously report "Function not fully defined"
+
+-2 Did not always detect function decls with a different number of args
+
+-5 If the index to an array is an undefined variable, your code segfaults
+
+-5 Did not do type promotion for function call arguments.
+
+-3 One of my other tests segfaulted, but I didn't investigate the cause.
+
+**************************************************
+
 Lab 4 Feedback
 
 129
