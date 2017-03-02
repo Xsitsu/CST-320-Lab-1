@@ -18,6 +18,7 @@
 #include "astnodes.h"
 #include "langparse.h"
 #include "cSemantics.h"
+#include "cSizeOffset.h"
 
 // define global variables
 long long cSymbol::nextId;
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
     std::cout << "Jacob Locke" << std::endl;
 
     cSemantics semantics;
+    cSizeOffset sizeoffset;
 
     const char *outfile_name;
     int result = 0;
@@ -66,7 +68,8 @@ int main(int argc, char **argv)
     if (yyast_root != nullptr)
     {
         semantics.VisitAllNodes(yyast_root);
-
+        sizeoffset.VisitAllNodes(yyast_root);
+        
         result += semantics.NumErrors();
         if (result == 0)
         {

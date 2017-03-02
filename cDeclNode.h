@@ -60,16 +60,10 @@ class cDeclNode : public cAstNode
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
         
         int GetSize() { return this->m_size; }
-        void SetOffset(int offset) { this->m_offset = offset; }
+        void SetSize(int size) { this->m_size = size; }
         int GetOffset() { return this->m_offset; }
+        void SetOffset(int offset) { this->m_offset = offset; }
         
-        
-        virtual void CalculateSize()
-        {
-            cDeclNode* type = this->GetType();
-            this->m_size = type->Sizeof();
-        }
-
 protected:
         int m_size;
         int m_offset;

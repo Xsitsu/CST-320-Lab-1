@@ -17,7 +17,7 @@ class cDeclsNode : public cAstNode
 {
     public:
         // param is the first decl in this decls
-        cDeclsNode(cDeclNode *decl) : cAstNode(), m_size(0), m_offset(0)
+        cDeclsNode(cDeclNode *decl) : cAstNode(), m_size(0)
         {
             Insert(decl);
         }
@@ -25,17 +25,7 @@ class cDeclsNode : public cAstNode
         // Add a decl to the list
         void Insert(cDeclNode *decl)
         {
-            decl->CalculateSize();
-            
             AddChild(decl);
-            
-            decl->SetOffset(m_offset);
-            int adder = decl->GetSize();
-            this->m_size += adder;
-            
-            while ((adder%4)) adder++;
-            
-            this->m_offset += adder;
         }
 
         // return a particular decl from the list
@@ -55,8 +45,8 @@ class cDeclsNode : public cAstNode
         }
         
         int GetSize() { return this->m_size; }
+        void SetSize(int size) { this->m_size = size; }
         
 protected:
         int m_size;
-        int m_offset;
 };

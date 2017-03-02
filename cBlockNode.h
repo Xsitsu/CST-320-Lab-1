@@ -27,8 +27,6 @@ class cBlockNode : public cStmtNode
         {
             AddChild(decls);
             AddChild(statements);
-            
-            this->m_size += decls->GetSize();
         }
 
         virtual string NodeType() { return string("block"); }
@@ -42,7 +40,7 @@ class cBlockNode : public cStmtNode
         }
         
         int GetSize() { return this->m_size; }
-        
+        void SetSize(int size) { this->m_size = size; }
         
 protected:
         int m_size;
