@@ -110,13 +110,27 @@ class cVarExprNode : public cExprNode
         
         virtual string AttributesToString()
         {
-            
             int size = this->GetSize();
             int offset = this->GetOffset();
+            int rowsizes = 0;
+            
+            cDeclNode* decl = this->GetName()->GetDecl()->GetType();
+            if (decl->IsArray())
+            {
+                rowsizes = decl->GetBaseType()->Sizeof();
+            }
+            
+            
             
             string result(" size=\"");
             result += std::to_string(size) + "\"";
             result += " offset=\"" + std::to_string(offset) + "\"";
+            
+            if (rowsizes > 0)
+            {
+                result += " rowsizes=\"" + std::to_string(rowsizes) + "\"";
+            }
+            
             return result;
         }
         
