@@ -34,6 +34,8 @@ class cBlockNode : public cStmtNode
         
         virtual string AttributesToString()
         {
+            if (this->m_size < 1) return "";
+            
             string result(" size=\"");
             result += std::to_string(this->m_size) + "\"";
             return result;

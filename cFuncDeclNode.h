@@ -194,6 +194,8 @@ class cFuncDeclNode : public cDeclNode
         
         virtual string AttributesToString()
         {
+            if (m_size < 1) return "";
+            
             string result(" size=\"");
             result += std::to_string(this->m_size) + "\"";
             result += " offset=\"" + std::to_string(this->m_offset) + "\"";

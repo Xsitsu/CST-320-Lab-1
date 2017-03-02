@@ -112,23 +112,29 @@ class cVarExprNode : public cExprNode
         {
             int size = this->GetSize();
             int offset = this->GetOffset();
-            int rowsizes = 0;
+            string row_sizes_string = "";
             
             cDeclNode* decl = this->GetName()->GetDecl()->GetType();
-            if (decl->IsArray())
+            int is_array = decl->IsArray();
+            if (is_array)
             {
-                rowsizes = decl->GetBaseType()->Sizeof();
+                cDeclNode* base = decl->GetBaseType();
+                row_sizes_string = std::to_string(base->Sizeof());
+                
+                while (base->IsArray())
+                {
+                    base = base->GetBaseType();
+                    row_sizes_string += " " + std::to_string(base->Sizeof());
+                }
             }
-            
-            
             
             string result(" size=\"");
             result += std::to_string(size) + "\"";
             result += " offset=\"" + std::to_string(offset) + "\"";
             
-            if (rowsizes > 0)
+            if (is_array)
             {
-                result += " rowsizes=\"" + std::to_string(rowsizes) + "\"";
+                result += " rowsizes=\"" + row_sizes_string + "\"";
             }
             
             return result;
