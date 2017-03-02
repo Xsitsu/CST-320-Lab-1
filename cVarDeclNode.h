@@ -82,6 +82,11 @@ class cVarDeclNode : public cDeclNode
             result += " offset=\"" + std::to_string(this->m_offset) + "\"";
             return result;
         }
-
+        
+        
+        virtual int Sizeof()
+        {
+            return this->GetType()->Sizeof();
+        }
         
 };

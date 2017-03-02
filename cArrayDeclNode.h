@@ -91,7 +91,14 @@ class cArrayDeclNode : public cDeclNode
         {
             return " count=\"" + std::to_string(m_count) + "\"";
         }
-    protected:
+        
+        virtual int Sizeof()
+        {
+            return this->m_count * this->GetBaseType()->Sizeof();
+        }
+        
+        
+protected:
         int m_count;
 
 };
