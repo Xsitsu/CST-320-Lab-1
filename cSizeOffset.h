@@ -49,20 +49,35 @@ public:
     void Visit(cVarDeclNode* node)
     {
         int node_size = node->GetType()->Sizeof();
-        if (node_size > 1 || this->offset_add_dir < 0)
+        int calc_size = node_size;
+        
+        if (this->offset_add_dir > 0)
         {
-            while (this->offset % 4)
+            if (node_size > 1)
             {
-                this->offset += this->offset_add_dir;
-                this->size_count++;
+                while (this->offset % 4)
+                {
+                    this->offset++;
+                    this->size_count++;
+                }
             }
+            
+            node->SetOffset(this->offset);
+            
+            this->offset += node_size;
+            this->size_count += node_size;
+        }
+        else if (this->offset_add_dir < 0)
+        {
+            if (calc_size < 4)
+                calc_size = 4;
+            
+            this->offset -= calc_size;
+            node->SetOffset(this->offset);
+            this->size_count += calc_size;
         }
         
-        node->SetOffset(this->offset);
         node->SetSize(node_size);
-        
-        this->offset += this->offset_add_dir * node_size;
-        this->size_count += node_size;
     }
     
     void Visit(cFuncDeclNode* node)
@@ -95,7 +110,7 @@ public:
         
         this->max_size = 0;
         this->size_count = 0;
-        this->offset = -12;
+        this->offset = -8;
         
         this->VisitAllChildren(node);
         int size = this->size_count;
