@@ -6,7 +6,7 @@
 // Author: Phil Howard 
 // phil.howard@oit.edu
 //
-// Date: Jan. 18, 2016
+// Date: Nov. 28, 2015
 //
 
 #include <stdio.h>
@@ -17,8 +17,10 @@
 #include "lex.h"
 #include "astnodes.h"
 #include "langparse.h"
-#include "cSemantics.h"
 #include "cSizeOffset.h"
+#include "cSemantics.h"
+#include "cCodeGen.h"
+#include "cSymbol.h"
 
 // define global variables
 long long cSymbol::nextId;
@@ -28,12 +30,9 @@ int main(int argc, char **argv)
 {
     std::cout << "Jacob Locke" << std::endl;
 
-    cSemantics semantics;
-    cSizeOffset sizeoffset;
-
-    const char *outfile_name;
+    std::string outfile_name;
     int result = 0;
-    std::streambuf *cout_buf = std::cout.rdbuf();
+    //std::streambuf *cout_buf = std::cout.rdbuf();
 
     if (argc > 1)
     {
@@ -49,9 +48,11 @@ int main(int argc, char **argv)
     {
         outfile_name = argv[2];
     } else {
-        outfile_name = "/dev/tty";
+        //outfile_name = "/dev/tty";
+        outfile_name = "langout";
     }
 
+    /*
     std::ofstream output(outfile_name);
     if (!output.is_open())
     {
@@ -61,35 +62,48 @@ int main(int argc, char **argv)
 
     // fixup cout so it redirects to output
     std::cout.rdbuf(output.rdbuf());
+    */
 
     g_SymbolTable.InitRootTable();
 
     result = yyparse();
     if (yyast_root != nullptr)
     {
+        cSemantics semantics;
         semantics.VisitAllNodes(yyast_root);
-        
         result += semantics.NumErrors();
+
         if (result == 0)
         {
-            sizeoffset.VisitAllNodes(yyast_root);
-            output << yyast_root->ToString() << std::endl;
-        } 
-        else 
-        {
-            output << yynerrs + semantics.NumErrors() << " Errors in compile\n";
+            cSizeOffset sizer;
+            sizer.VisitAllNodes(yyast_root);
+
+            //std::cout << yyast_root->ToString() << std::endl;
+
+            cCodeGen coder(outfile_name + ".sl");
+            coder.VisitAllNodes(yyast_root);
+
+            /*
+            string cmd = "gcc -g -O0 -o " + 
+                outfile_name + " " + outfile_name + ".c";
+            system(cmd.c_str());
+            */
+        } else {
+            std::cerr << yynerrs << " Errors in compile\n";
         }
     }
 
     if (result == 0 && yylex() != 0)
     {
-        std::cout << "Junk at end of program\n";
+        std::cerr << "Junk at end of program\n";
     }
 
+    /*
     // close output and fixup cout
     // If these aren't done, you may get a segfault on program exit
     output.close();
     std::cout.rdbuf(cout_buf);
+    */
 
     return result;
 }

@@ -47,7 +47,10 @@ class cOpNode : public cAstNode
         }
         virtual string NodeType()       { return "op"; }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
-    protected:
+        
+        int GetOp() { return this->m_op; }
+        
+protected:
         int m_op;      // the operand
 };
 

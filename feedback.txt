@@ -1,3 +1,15 @@
+Lab 6 Feedback
+85
+
+-3 You should not use a while loop to round values and you should not duplicate that code.
+
+-10 You compute RowSize in your AttributesToString. You will need RowSize for codegen, so it should be computed in your visitor and stored.
+
+-2 You did not compute the size of params for constant params:
+    foo(1, 2);
+
+******************************************
+
 Lab 5 Feedback
 
 119
