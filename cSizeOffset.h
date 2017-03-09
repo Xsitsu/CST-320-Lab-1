@@ -13,6 +13,16 @@ public:
     
     void VisitAllNodes(cAstNode* node) { node->Visit(this); }
     
+    void Visit(cProgramNode* node)
+    {
+        this->VisitAllChildren(node);
+        
+        cBlockNode* block = node->GetBlock();
+        int size = block->GetSize();
+        while (size % 4) size++;
+        block->SetSize(size);
+    }
+    
     void Visit(cBlockNode* node)
     {
         int offset = this->offset;

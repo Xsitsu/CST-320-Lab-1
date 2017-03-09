@@ -39,6 +39,7 @@ class cSymbol;
 class cVarDeclNode;
 class cVarExprNode;
 class cWhileNode;
+class cProgramNode;
 
 class cVisitor
 {
@@ -46,7 +47,7 @@ class cVisitor
         cVisitor() {}
 
         virtual void VisitAllNodes(cAstNode *node) = 0;
-
+        
         virtual void Visit(cArrayDeclNode *node);
         virtual void Visit(cAstNode *node);
         virtual void Visit(cAssignNode *node);
@@ -72,6 +73,7 @@ class cVisitor
         virtual void Visit(cVarDeclNode *node);
         virtual void Visit(cVarExprNode *node);
         virtual void Visit(cWhileNode *node);
+        virtual void Visit(cProgramNode* node);
     protected:
         void PreVisitAllNodes(cAstNode *node);
         void PostVisitAllNodes(cAstNode *node);
