@@ -99,6 +99,38 @@ public:
         EmitString("CALL @print\n");
     }
     
+    void Visit(cFuncDeclNode* node)
+    {
+        StartFunctionOutput(node->GetName()->GetName());
+        
+        int adjust = node->GetSize();
+        
+        EmitString("ADJSP");
+        EmitInt(adjust);
+        EmitString("\n");
+        
+        this->VisitAllChildren(node);
+        
+        EmitString("ADJSP");
+        EmitInt(-adjust);
+        EmitString("\n");
+        
+        EndFunctionOutput();
+    }
+    
+    void Visit(cFuncExprNode* node)
+    {
+        EmitString("CALL @");
+        EmitString(node->GetName()->GetName());
+        EmitString("\n");
+    }
+    
+    void Visit(cReturnNode* node)
+    {
+        this->VisitAllChildren(node);
+        
+        EmitString("RETURNV\n");
+    }
     
 protected:
     
