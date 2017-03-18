@@ -39,7 +39,7 @@ whitespace      '[\t\n\r ]'
 %%
 
     // token definitions 
-[\t\n\t ]*                  ;   /* Ignore whitespace */
+[\r\t\n\t ]*                  ;   /* Ignore whitespace */
 [{}()\[\],;\.+\-*/%=]       { 
                                 yylval.int_val = yytext[0];
                                 DO_RETURN(yytext[0]);

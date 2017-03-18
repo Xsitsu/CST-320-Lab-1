@@ -24,6 +24,18 @@ public:
     }
     
     
+    void Visit(cBlockNode* node)
+    {
+        EmitString("ADJSP");
+        EmitInt(node->GetSize());
+        EmitString("\n");
+        
+        this->VisitAllChildren(node);
+        
+        EmitString("ADJSP");
+        EmitInt(-node->GetSize());
+        EmitString("\n");
+    }
     
     void Visit(cBinaryExprNode* node)
     {
@@ -34,7 +46,9 @@ public:
     
     void Visit(cIntExprNode* node)
     {
-        std::cout << "PUSH " << node->GetValue() << std::endl;
+        EmitString("PUSH");
+        EmitInt(node->GetValue());
+        EmitString("\n");
     }
     
     void Visit(cOpNode* node)
@@ -58,20 +72,32 @@ public:
             break;
         }
         
-        std::cout << opname << std::endl;
+        EmitString(opname);
+        EmitString("\n");
     }
     
     void Visit(cVarExprNode* node)
     {
-        std::cout << "PUSHVAR " << node->GetOffset() << std::endl;
+        EmitString("PUSHVAR");
+        EmitInt(node->GetOffset());
+        EmitString("\n");
     }
     
     void Visit(cAssignNode* node)
     {
         node->GetExpr()->Visit(this);
-        std::cout << "POPVAR " << node->GetLVal()->GetOffset() << std::endl;
+        
+        EmitString("POPVAR");
+        EmitInt(node->GetLVal()->GetOffset());
+        EmitString("\n");
     }
     
+    void Visit(cPrintNode* node)
+    {
+        this->VisitAllChildren(node);
+        
+        EmitString("CALL @print\n");
+    }
     
     
 protected:
