@@ -115,6 +115,8 @@ public:
         EmitInt(-adjust);
         EmitString("\n");
         
+        EmitString("RETURNV\n");
+        
         EndFunctionOutput();
     }
     
@@ -128,8 +130,6 @@ public:
     void Visit(cReturnNode* node)
     {
         this->VisitAllChildren(node);
-        
-        EmitString("RETURNV\n");
     }
     
 protected:
